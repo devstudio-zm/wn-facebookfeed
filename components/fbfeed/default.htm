@@ -1,0 +1,15 @@
+{% if posts is not empty %}
+    <div class="fb-feed">
+        {% for post in posts %}
+            {% partial __SELF__ ~ '::_post' post=post %}
+        {% endfor %}
+    </div>
+
+    {% if posts.lastPage > 1 %}
+        <div class="fb-feed-pagination">
+            {{ posts.render()|raw }}
+        </div>
+    {% endif %}
+{% else %}
+    <p class="fb-feed-empty">No posts to display.</p>
+{% endif %}

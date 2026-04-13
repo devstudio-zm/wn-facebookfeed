@@ -1,0 +1,15 @@
+columns:
+    name:
+        label: Name
+        searchable: true
+    code:
+        label: Code
+        searchable: true
+    sync_frequency:
+        label: Sync Frequency
+    last_synced_at:
+        label: Last Synced
+        type: datetime
+    is_active:
+        label: Active
+        type: switch

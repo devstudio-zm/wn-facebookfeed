@@ -1,0 +1,18 @@
+columns:
+    feed[name]:
+        label: Feed
+        relation: feed
+        valueFrom: name
+        searchable: true
+    message:
+        label: Message
+        type: text
+        searchable: true
+    fb_created_at:
+        label: 'Posted At'
+        type: datetime
+    is_published:
+        label: Published
+        type: switch
+    sort_order:
+        label: Order

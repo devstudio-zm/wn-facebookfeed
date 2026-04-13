@@ -1,0 +1,12 @@
+list: $/impulsetechnologies/facebookfeed/models/feed/columns.yaml
+modelClass: ImpulseTechnologies\FacebookFeed\Models\Feed
+title: 'Facebook Feeds'
+noRecordsMessage: 'backend::lang.list.no_records'
+showSetup: true
+showCheckboxes: true
+recordsPerPage: 20
+toolbar:
+    buttons: list_toolbar
+    search:
+        prompt: 'backend::lang.list.search_prompt'
+recordUrl: 'impulsetechnologies/facebookfeed/feeds/update/:id'

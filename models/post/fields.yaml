@@ -1,0 +1,34 @@
+fields:
+    fb_post_id:
+        label: 'Facebook Post ID'
+        span: left
+        type: text
+        readOnly: true
+    fb_created_at:
+        label: 'Posted At (Facebook)'
+        span: right
+        type: datepicker
+        mode: datetime
+        readOnly: true
+    full_picture:
+        label: 'Image URL'
+        span: full
+        type: text
+        readOnly: true
+        comment: 'Full-size image URL returned by the Graph API.'
+    message:
+        label: Message
+        span: full
+        type: textarea
+        readOnly: true
+        comment: 'Post text as returned by the Graph API.'
+    is_published:
+        label: 'Published'
+        span: left
+        type: switch
+        comment: 'Unpublished posts are hidden from the frontend.'
+    sort_order:
+        label: 'Sort Order'
+        span: right
+        type: number
+        comment: 'Lower numbers appear first when sorting by order.'

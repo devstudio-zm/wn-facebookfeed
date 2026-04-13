@@ -1,0 +1,7 @@
+name: 'Facebook Post'
+form: $/impulsetechnologies/facebookfeed/models/post/fields.yaml
+modelClass: ImpulseTechnologies\FacebookFeed\Models\Post
+defaultRedirect: impulsetechnologies/facebookfeed/posts
+update:
+    redirect: impulsetechnologies/facebookfeed/posts
+    redirectClose: impulsetechnologies/facebookfeed/posts

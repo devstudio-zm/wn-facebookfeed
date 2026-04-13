@@ -1,0 +1,5 @@
+plugin:
+    name: 'impulsetechnologies.facebookfeed::lang.plugin.name'
+    description: 'impulsetechnologies.facebookfeed::lang.plugin.description'
+    author: 'Impulse Technologies'
+    icon: 'fab icon-facebook'

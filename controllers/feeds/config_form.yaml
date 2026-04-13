@@ -1,0 +1,10 @@
+name: 'Facebook Feed'
+form: $/impulsetechnologies/facebookfeed/models/feed/fields.yaml
+modelClass: ImpulseTechnologies\FacebookFeed\Models\Feed
+defaultRedirect: impulsetechnologies/facebookfeed/feeds
+create:
+    redirect: 'impulsetechnologies/facebookfeed/feeds/update/:id'
+    redirectClose: impulsetechnologies/facebookfeed/feeds
+update:
+    redirect: impulsetechnologies/facebookfeed/feeds
+    redirectClose: impulsetechnologies/facebookfeed/feeds
