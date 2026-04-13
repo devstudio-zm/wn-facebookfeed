@@ -1,19 +1,47 @@
-<div class="fb-post">
+{% set id_parts = post.fb_post_id|split('_') %}
+{% set page_id  = id_parts|first %}
+{% set post_id  = id_parts|last %}
+{% set fb_url   = 'https://www.facebook.com/permalink.php?story_fbid=' ~ post_id ~ '&id=' ~ page_id %}
+{% set initials = post.feed.name|slice(0,1) %}
+
+<div class="fb-post-card">
+
+    <div class="fb-post-header">
+        <div class="fb-post-avatar">{{ initials }}</div>
+        <div class="fb-post-meta">
+            <span class="fb-post-page-name">{{ post.feed.name }}</span>
+            <time class="fb-post-date" datetime="{{ post.fb_created_at|date('Y-m-d') }}">
+                {{ post.fb_created_at|date('M j') ~ ' at ' ~ post.fb_created_at|date('g:ia') }}
+            </time>
+        </div>
+        <a href="{{ fb_url }}" target="_blank" rel="noopener noreferrer" class="fb-post-view-link">
+            View on Facebook
+        </a>
+    </div>
+
     {% if post.full_picture %}
         <div class="fb-post-image">
-            <img src="{{ post.full_picture }}" alt="Facebook post image" loading="lazy">
+            <a href="{{ fb_url }}" target="_blank" rel="noopener noreferrer">
+                <img src="{{ post.full_picture }}" alt="Facebook post image" loading="lazy">
+            </a>
         </div>
     {% endif %}
 
     {% if post.message %}
         <div class="fb-post-message">
-            <p>{{ post.message|nl2br }}</p>
+            <p>{{ post.message }}</p>
         </div>
     {% endif %}
 
-    <div class="fb-post-meta">
-        <time datetime="{{ post.fb_created_at|date('Y-m-d') }}">
-            {{ post.fb_created_at|date('d M Y') }}
-        </time>
+    <div class="fb-post-footer">
+        <a href="{{ fb_url }}" target="_blank" rel="noopener noreferrer" class="fb-post-share-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
+                <polyline points="16 6 12 2 8 6"/>
+                <line x1="12" y1="2" x2="12" y2="15"/>
+            </svg>
+            Share
+        </a>
     </div>
+
 </div>

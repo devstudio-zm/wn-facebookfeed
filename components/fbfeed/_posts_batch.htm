@@ -1,0 +1,3 @@
+{% for post in posts %}
+    {% partial __SELF__ ~ '::_post' post=post %}
+{% endfor %}

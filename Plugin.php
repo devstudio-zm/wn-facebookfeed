@@ -18,7 +18,14 @@ class Plugin extends PluginBase
     public function registerComponents(): array
     {
         return [
-            'ImpulseTechnologies\FacebookFeed\Components\FbFeed' => 'fbFeed',
+                'ImpulseTechnologies\FacebookFeed\Components\FbFeed' => 'fbFeed',
+            ];
+        }
+
+    public function registerPageSnippets()
+    {
+        return [
+            \ImpulseTechnologies\FacebookFeed\Components\FbFeed::class => 'fbFeed'
         ];
     }
 

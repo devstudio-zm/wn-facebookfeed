@@ -11,6 +11,7 @@ class FbFeed extends ComponentBase
         return [
             'name'        => 'impulsetechnologies.facebookfeed::lang.component.name',
             'description' => 'impulsetechnologies.facebookfeed::lang.component.description',
+            'snippetAjax' => true
         ];
     }
 
@@ -46,6 +47,8 @@ class FbFeed extends ComponentBase
 
     public function onRun(): void
     {
+        $this->addCss('/plugins/impulsetechnologies/facebookfeed/assets/css/fbfeed.css');
+
         $feedCode = $this->property('feedCode');
         $perPage  = (int) $this->property('postsPerPage', 10);
         $sortBy   = $this->property('sortBy', 'fb_created_at');
@@ -53,18 +56,48 @@ class FbFeed extends ComponentBase
         $feed = Feed::where('code', $feedCode)->where('is_active', true)->first();
 
         if (!$feed) {
-            $this->page['posts'] = collect();
-            $this->page['feed']  = null;
+            $this->page['posts']   = [];
+            $this->page['feed']    = null;
+            $this->page['hasMore'] = false;
             return;
         }
 
-        $order     = $sortBy === 'sort_order' ? 'asc' : 'desc';
-        $posts     = Post::where('feed_id', $feed->id)
-                         ->where('is_published', true)
-                         ->orderBy($sortBy, $order)
-                         ->paginate($perPage);
+        $order = $sortBy === 'sort_order' ? 'asc' : 'desc';
+        $paged = Post::where('feed_id', $feed->id)
+                     ->where('is_published', true)
+                     ->orderBy($sortBy, $order)
+                     ->paginate($perPage);
 
-        $this->page['feed']  = $feed;
-        $this->page['posts'] = $posts;
+        $this->page['feed']    = $feed;
+        $this->page['posts']   = $paged->items();
+        $this->page['hasMore'] = $paged->hasMorePages();
     }
+
+    public function onLoadMore(): array
+    {
+        $feedCode = $this->property('feedCode');
+        $perPage  = (int) $this->property('postsPerPage', 10);
+        $sortBy   = $this->property('sortBy', 'fb_created_at');
+        $page     = max(2, (int) post('page', 2));
+
+        $feed = Feed::where('code', $feedCode)->where('is_active', true)->first();
+
+        if (!$feed) {
+            return ['posts_html' => '', 'has_more' => false, 'next_page' => $page];
+        }
+
+        $order = $sortBy === 'sort_order' ? 'asc' : 'desc';
+        $paged = Post::where('feed_id', $feed->id)
+                     ->where('is_published', true)
+                     ->orderBy($sortBy, $order)
+                     ->paginate($perPage, ['*'], 'page', $page);
+
+        return [
+            'posts_html' => $this->renderPartial('::_posts_batch', ['posts' => $paged->items()]),
+            'has_more'   => $paged->hasMorePages(),
+            'next_page'  => $page + 1,
+        ];
+    }
+
+
 }

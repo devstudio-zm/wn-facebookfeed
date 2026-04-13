@@ -1,15 +1,43 @@
 {% if posts is not empty %}
-    <div class="fb-feed">
+<div class="fb-feed-wrapper">
+    <div id="fb-posts-grid" class="fb-feed">
         {% for post in posts %}
             {% partial __SELF__ ~ '::_post' post=post %}
         {% endfor %}
     </div>
 
-    {% if posts.lastPage > 1 %}
-        <div class="fb-feed-pagination">
-            {{ posts.render()|raw }}
-        </div>
-    {% endif %}
+    <div id="fb-load-more-wrap" class="fb-load-more-wrap"{% if not hasMore %} style="display:none"{% endif %}>
+        <button class="fb-load-more-btn"
+            data-request="{{ __SELF__ }}::onLoadMore"
+            data-request-data="page: 2"
+            data-request-success="fbFeedAppend(data, this)">
+            <span class="fb-load-more-label">Load More</span>
+            <span class="fb-load-more-spinner" style="display:none"></span>
+        </button>
+    </div>
+</div>
 {% else %}
     <p class="fb-feed-empty">No posts to display.</p>
 {% endif %}
+
+<script>
+function fbFeedAppend(data, btn) {
+    document.getElementById('fb-posts-grid').insertAdjacentHTML('beforeend', data.posts_html);
+    if (data.has_more) {
+        btn.setAttribute('data-request-data', 'page: ' + data.next_page);
+    } else {
+        document.getElementById('fb-load-more-wrap').style.display = 'none';
+    }
+    btn.querySelector('.fb-load-more-label').style.display = '';
+    btn.querySelector('.fb-load-more-spinner').style.display = 'none';
+    btn.disabled = false;
+}
+document.addEventListener('ajaxBeforeSend', function(e) {
+    var btn = e.target.closest ? e.target.closest('.fb-load-more-btn') : null;
+    if (btn) {
+        btn.querySelector('.fb-load-more-label').style.display = 'none';
+        btn.querySelector('.fb-load-more-spinner').style.display = 'inline-block';
+        btn.disabled = true;
+    }
+});
+</script>
