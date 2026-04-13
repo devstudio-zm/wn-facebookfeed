@@ -25,7 +25,7 @@ fields:
     access_token:
         label: 'Page Access Token'
         span: full
-        type: sensitive
+        type: password
         comment: 'A long-lived Facebook PAGE access token (not a User token). In Graph API Explorer, select the page under "User or Page" before generating the token. Stored encrypted.'
     is_active:
         label: 'Active'
