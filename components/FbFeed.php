@@ -48,6 +48,7 @@ class FbFeed extends ComponentBase
     public function onRun(): void
     {
         $this->addCss('/plugins/impulsetechnologies/facebookfeed/assets/css/fbfeed.css');
+        $this->addJs('/plugins/impulsetechnologies/facebookfeed/assets/js/fbfeed.js');
 
         $feedCode = $this->property('feedCode');
         $perPage  = (int) $this->property('postsPerPage', 10);
