@@ -156,22 +156,24 @@
     text-align: center;
 }
 
+
 .fb-load-more-btn {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 10px 28px;
-    background: #fff;
-    border: 2px solid #1877f2;
+    padding: 8px 20px;
+    background: #f0f0f0;
+    border: 2px solid #1c1e21;
     border-radius: 6px;
-    color: #1877f2;
+    color: #1c1e21;
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
     transition: background .15s, color .15s;
 }
+
 .fb-load-more-btn:hover:not(:disabled) {
-    background: #1877f2;
+    background: #1c1e21;
     color: #fff;
 }
 .fb-load-more-btn:disabled {
