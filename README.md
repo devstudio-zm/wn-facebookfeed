@@ -8,7 +8,7 @@ A WinterCMS plugin that syncs a Facebook Page's posts via the Graph API and rend
 
 - PHP 8.1+
 - WinterCMS 1.2+
-- Facebook App with `pages_show_list`, `pages_read_engagement`, and `pages_manage_posts` permissions
+- Facebook App with `business_management`,`pages_show_list`, `pages_read_engagement`, and `pages_manage_posts` permissions
 
 ---
 
