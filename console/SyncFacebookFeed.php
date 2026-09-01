@@ -11,14 +11,21 @@ class SyncFacebookFeed extends Command
 {
     protected $signature = 'facebook:sync
                             {feed? : The code of a specific feed to sync. Omit to sync all active feeds.}
-                            {--full : Fetch all pages of posts from the API instead of only the first page.}';
+                            {--full : Fetch all pages of posts from the API instead of only the first page.}
+                            {--frequency= : Only sync feeds whose sync frequency matches (hourly, daily, weekly).}';
 
     protected $description = 'Sync Facebook Page posts into the local database via the Graph API.';
 
+    /**
+     * The frequency assigned to feeds with a missing sync frequency.
+     */
+    const DEFAULT_FREQUENCY = 'daily';
+
     public function handle(): int
     {
-        $feedCode = $this->argument('feed');
-        $full     = $this->option('full');
+        $feedCode  = $this->argument('feed');
+        $full      = $this->option('full');
+        $frequency = $this->option('frequency');
 
         $query = Feed::where('is_active', true);
 
@@ -26,9 +33,33 @@ class SyncFacebookFeed extends Command
             $query->where('code', $feedCode);
         }
 
+        if ($frequency) {
+            $allowed = array_keys((new Feed)->getSyncFrequencyOptions());
+
+            if (!in_array($frequency, $allowed, true)) {
+                $this->error("Unknown sync frequency \"{$frequency}\". Expected one of: " . implode(', ', $allowed) . '.');
+                return 1;
+            }
+
+            $query->where(function ($q) use ($frequency) {
+                $q->where('sync_frequency', $frequency);
+
+                // Feeds with no frequency set fall into the default bucket.
+                if ($frequency === self::DEFAULT_FREQUENCY) {
+                    $q->orWhereNull('sync_frequency')->orWhere('sync_frequency', '');
+                }
+            });
+        }
+
         $feeds = $query->get();
 
         if ($feeds->isEmpty()) {
+            // An empty frequency bucket is normal, so don't fail the scheduled task.
+            if ($frequency && !$feedCode) {
+                $this->line("No active feeds set to sync <info>{$frequency}</info>.");
+                return 0;
+            }
+
             $this->error($feedCode
                 ? "No active feed found with code \"{$feedCode}\"."
                 : 'No active feeds found.'

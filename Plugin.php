@@ -77,7 +77,18 @@ class Plugin extends PluginBase
 
     public function registerSchedule($schedule): void
     {
-        $schedule->command('facebook:sync')->daily();
+        // One entry per sync frequency; the command syncs only the feeds in that bucket.
+        $schedule->command('facebook:sync --frequency=hourly')
+            ->hourly()
+            ->withoutOverlapping();
+
+        $schedule->command('facebook:sync --frequency=daily')
+            ->dailyAt('02:00')
+            ->withoutOverlapping();
+
+        $schedule->command('facebook:sync --frequency=weekly')
+            ->weeklyOn(0, '02:00')
+            ->withoutOverlapping();
     }
 
     public function boot(): void

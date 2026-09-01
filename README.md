@@ -51,7 +51,7 @@ Go to **Backend → Facebook Feed → Feeds → Create**.
 | Code | Unique slug used in the component (e.g. `main`) |
 | Facebook Page ID | Numeric page ID (e.g. `104853227550779`) |
 | Page Access Token | A User or Page access token — the plugin automatically exchanges a user token for the correct Page access token on first sync |
-| Sync Frequency | Display label only; scheduling defaults to daily |
+| Sync Frequency | How often the scheduler pulls this feed — `Hourly`, `Daily` or `Weekly` |
 | Active | Inactive feeds are skipped during scheduled sync |
 
 ### 2. Get an access token
@@ -71,11 +71,21 @@ Go to **Backend → Facebook Feed → Feeds → Create**.
 **Manual:**
 ```bash
 php artisan facebook:sync
-php artisan facebook:sync main          # specific feed by code
-php artisan facebook:sync --full        # fetch all paginated pages
+php artisan facebook:sync main               # specific feed by code
+php artisan facebook:sync --full             # fetch all paginated pages
+php artisan facebook:sync --frequency=hourly # only feeds set to that frequency
 ```
 
-**Scheduled:** runs daily automatically via the WinterCMS scheduler. Ensure you have a cron entry:
+**Scheduled:** each feed is synced at the interval set in its **Sync Frequency** field, via the
+WinterCMS scheduler:
+
+| Sync Frequency | Runs |
+|---|---|
+| Hourly | Every hour, on the hour |
+| Daily | Every day at 02:00 |
+| Weekly | Sundays at 02:00 |
+
+Ensure you have a cron entry:
 ```
 * * * * * php /path/to/artisan schedule:run
 ```
