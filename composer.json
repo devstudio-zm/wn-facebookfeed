@@ -1,0 +1,14 @@
+{
+    "name": "impulsetechnologies/facebookfeed",
+    "description": "WinterCMS Facebook Feed",
+    "type": "winter-plugin",
+    "authors": [
+        {
+            "name": "EddyCodes",
+            "email": "eddymwanda@gmail.com"
+        }
+    ],
+    "require": {
+        "composer/installers": "~1.0"
+    }
+}
