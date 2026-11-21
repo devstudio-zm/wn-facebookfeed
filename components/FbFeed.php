@@ -32,6 +32,23 @@ class FbFeed extends ComponentBase
                 'validationMessage' => 'Must be a whole number.',
                 'default'           => '10',
             ],
+            'script' => [
+                'title'       => 'Load more script',
+                'description' => 'Vanilla JavaScript (recommended, no jQuery needed), jQuery (for sites that already use it), or none (if you add your own script).',
+                'type'        => 'dropdown',
+                'default'     => 'vanilla',
+                'options'     => [
+                    'vanilla' => 'Vanilla JavaScript',
+                    'jquery'  => 'jQuery',
+                    'none'    => 'None',
+                ],
+            ],
+            'styles' => [
+                'title'       => 'Plugin stylesheet',
+                'description' => 'Load the plugin\'s default stylesheet. Turn off when the theme styles the feed.',
+                'type'        => 'checkbox',
+                'default'     => true,
+            ],
             'sortBy' => [
                 'title'       => 'impulsetechnologies.facebookfeed::lang.component.sort_by',
                 'description' => 'impulsetechnologies.facebookfeed::lang.component.sort_by_description',
@@ -47,8 +64,19 @@ class FbFeed extends ComponentBase
 
     public function onRun(): void
     {
-        $this->addCss('/plugins/impulsetechnologies/facebookfeed/assets/css/fbfeed.css');
-        $this->addJs('/plugins/impulsetechnologies/facebookfeed/assets/js/fbfeed.js');
+        if ($this->property('styles', true)) {
+            $this->addCss('$/impulsetechnologies/facebookfeed/assets/css/fbfeed.css');
+        }
+
+        switch ($this->property('script', 'vanilla')) {
+            case 'jquery':
+                $this->addJs('$/impulsetechnologies/facebookfeed/assets/js/fbfeed.js');
+                break;
+            case 'none':
+                break;
+            default:
+                $this->addJs('$/impulsetechnologies/facebookfeed/assets/js/fbfeed.vanilla.js');
+        }
 
         $feedCode = $this->property('feedCode');
         $perPage  = (int) $this->property('postsPerPage', 10);

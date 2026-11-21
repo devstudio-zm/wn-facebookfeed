@@ -101,6 +101,8 @@ Add to any CMS page or layout:
 feedCode = "main"
 postsPerPage = 12
 sortBy = "fb_created_at"
+script = "vanilla"
+styles = 1
 ```
 
 ```twig
@@ -114,6 +116,8 @@ sortBy = "fb_created_at"
 | `feedCode` | _(required)_ | Code of the feed to display |
 | `postsPerPage` | `10` | Posts per page |
 | `sortBy` | `fb_created_at` | `fb_created_at` (newest first) or `sort_order` (manual) |
+| `script` | `vanilla` | Load-more script: `vanilla` (plain JavaScript, no jQuery), `jquery` (for sites that already use jQuery), or `none` (add your own) |
+| `styles` | `1` | Load the plugin's default stylesheet. Turn off when the theme styles the feed |
 
 ### Overriding the partial
 

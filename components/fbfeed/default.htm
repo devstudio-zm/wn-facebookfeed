@@ -1,13 +1,13 @@
 ﻿{% if posts is not empty %}
-<div class="fb-feed-wrapper">
-    <div id="fb-posts-grid" class="fb-feed">
+<div class="fb-feed-wrapper" data-fb-feed>
+    <div id="fb-posts-grid" class="fb-feed" data-fb-grid>
         {% for post in posts %}
             {% partial __SELF__ ~ '::_post' post=post %}
         {% endfor %}
     </div>
 
-    <div id="fb-load-more-wrap" class="fb-load-more-wrap"{% if not hasMore %} style="display:none"{% endif %}>
-        <button id="fb-load-more-btn" class="fb-load-more-btn" type="button"
+    <div id="fb-load-more-wrap" class="fb-load-more-wrap" data-fb-load-more-wrap{% if not hasMore %} style="display:none"{% endif %}>
+        <button id="fb-load-more-btn" class="fb-load-more-btn" type="button" data-fb-load-more
             data-handler="{{ __SELF__ }}::onLoadMore">
             <span class="fb-load-more-label">Load More</span>
             <span class="fb-load-more-spinner" style="display:none"></span>
